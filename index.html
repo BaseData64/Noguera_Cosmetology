@@ -3,147 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="/ClientService/app.js"></script>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noguera Cosmetology</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        /* Estilos base conservados tal cual */
-        :root {
-            --primary: #8c6d53;
-            --primary-dark: #6e523c;
-            --accent: #d4b595;
-            --bg-light: #fbf7f0;
-            --text-dark: #3a322c;
-            --text-muted: #8c8278;
-            --white: #ffffff;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
-        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
-        img { max-width: 100%; height: auto; border-radius: 12px; }
-
-        header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .logo { font-size: 24px; font-weight: 700; color: var(--primary-dark); }
-        .logo span { color: var(--accent); }
-        nav ul { list-style: none; display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: var(--text-dark); font-size: 14px; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: var(--primary); }
-
-        .btn-cita, .btn-hero, .btn-submit {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 10px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .btn-cita:hover, .btn-hero:hover, .btn-submit:hover { background-color: var(--primary-dark); }
-
-        section { padding: 100px 5%; }
-        .section-title { text-align: center; font-size: 36px; color: var(--primary-dark); margin-bottom: 10px; }
-        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 50px; }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(rgba(251, 247, 240, 0.8), rgba(251, 247, 240, 0.8)), url('img/hero-bg.jpg') center/cover;
-            padding-top: 80px;
-        }
-        .hero h1 { font-size: 48px; color: var(--primary-dark); margin-bottom: 20px; max-width: 800px; }
-        .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 30px; max-width: 600px; }
-
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .service-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(140, 109, 83, 0.05);
-            transition: transform 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .service-card:hover { transform: translateY(-5px); }
-        .service-icon { font-size: 30px; color: var(--primary); margin-bottom: 15px; }
-        .service-card h3 { margin-bottom: 10px; font-size: 20px; }
-        .service-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
-        .service-tag { align-self: flex-start; background: var(--bg-light); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .gallery-item { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 1/1; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .gallery-item:hover img { transform: scale(1.05); }
-
-        .about { display: flex; align-items: center; gap: 50px; background-color: var(--white); }
-        .about-img { flex: 1; }
-        .about-text { flex: 1; }
-        .about-text h2 { margin-bottom: 20px; font-size: 32px; }
-        .about-text p { margin-bottom: 15px; color: var(--text-muted); }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--white);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e0d5c1;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
-        .btn-submit { width: 100%; padding: 15px; font-size: 16px; }
-
-        footer { text-align: center; padding: 20px; background: var(--primary-dark); color: var(--white); font-size: 14px; }
-
-        @media (max-width: 992px) {
-            .about { flex-direction: column; }
-            .hero h1 { font-size: 38px; }
-        }
-        @media (max-width: 768px) {
-            header { flex-direction: column; padding: 15px; gap: 15px; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 15px; }
-            .btn-cita { display: none; }
-            section { padding: 60px 5%; }
-            .hero { height: auto; padding: 140px 5% 60px; }
-            .hero h1 { font-size: 32px; }
-            .section-title { font-size: 28px; }
-            .contact-form { padding: 25px; }
-        }
-    </style>
 </head>
 <body>
 
@@ -153,7 +21,7 @@
             <ul>
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#servicios">Tratamientos</a></li>
-                <li><a href="#resultados">Galería</a></li>
+                <li><a href="#resultados">Galeria</a></li>
                 <li><a href="#nosotros">Sobre la Cosmetóloga</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
@@ -174,6 +42,7 @@
         <p class="section-subtitle">Protocolos personalizados según las necesidades de tu piel</p>
         
         <div class="services-grid">
+            <!-- 1 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-spa"></i></div>
@@ -182,6 +51,7 @@
                 </div>
                 <span class="service-tag">Esencial</span>
             </div>
+            <!-- 2 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-sliders"></i></div>
@@ -190,6 +60,7 @@
                 </div>
                 <span class="service-tag">Equilibrio</span>
             </div>
+            <!-- 3 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-filter-circle-xmark"></i></div>
@@ -198,6 +69,7 @@
                 </div>
                 <span class="service-tag">Purificante</span>
             </div>
+            <!-- 4 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-shield-halved"></i></div>
@@ -206,6 +78,7 @@
                 </div>
                 <span class="service-tag">Especializado</span>
             </div>
+            <!-- 5 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-droplet"></i></div>
@@ -214,6 +87,7 @@
                 </div>
                 <span class="service-tag">Nutrición</span>
             </div>
+            <!-- 6 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
@@ -222,6 +96,7 @@
                 </div>
                 <span class="service-tag">Anti-Edad</span>
             </div>
+            <!-- 7 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-sun"></i></div>
@@ -230,6 +105,7 @@
                 </div>
                 <span class="service-tag">Luminosidad</span>
             </div>
+            <!-- 8 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-circle-half-stroke"></i></div>
@@ -238,14 +114,16 @@
                 </div>
                 <span class="service-tag">Uniformidad</span>
             </div>
+            <!-- 9 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-feather"></i></div>
                     <h3>Tratamiento Desensibilizante</h3>
-                    <p>Calma, alivia y repara pieles sensibles, reactivas o con tendencia a rojeces e irritaciones.</p>
+                    <p>Calma, alivia y repara pieles sensibles, reactivas o con tendencia a rojeces y irritaciones.</p>
                 </div>
                 <span class="service-tag">Calmante</span>
             </div>
+            <!-- 10 -->
             <div class="service-card">
                 <div>
                     <div class="service-icon"><i class="fa-solid fa-user-shield"></i></div>
@@ -257,23 +135,35 @@
         </div>
     </section>
 
-    <!-- Galería de Resultados -->
+    <!-- Galería de Resultados / Clientes -->
     <section id="resultados" class="gallery">
-        <h2 class="section-title">Galería</h2>
-        <p class="section-subtitle">Los pacientes han dado autorización de mostrar lo que hago</p>
+        <h2 class="section-title">Galeria</h2>
+        <p class="section-subtitle">Los pacientes han dado autorizacion demostrar lo que hago</p>
         
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="img/490350020_1840697670040882_157801038185003868_n.jpg" alt="Resultado Limpieza Profunda">
+                <img src="static/img/490350020_1840697670040882_157801038185003868_n.jpg" alt="Resultado Limpieza Profunda">
+                <div class="gallery-overlay">
+
+                </div>
             </div>
             <div class="gallery-item">
-                <img src="img/487801122_1829957227781593_8429826869151180262_n.jpg" alt="Resultado Tratamiento Acné">
+                <img src="static/img/487801122_1829957227781593_8429826869151180262_n.jpg" alt="Resultado Tratamiento Acné">
+                <div class="gallery-overlay">
+ 
+                </div>
             </div>
             <div class="gallery-item">
-                <img src="img/499970438_1893561151421200_4217876886662061227_n.jpg" alt="Resultado Hidratación y Revitalizante">
+                <img src="static/img/499970438_1893561151421200_4217876886662061227_n.jpg" alt="Resultado Hidratación y Revitalizante">
+                <div class="gallery-overlay">
+
+                </div>
             </div>
             <div class="gallery-item">
-                <img src="img/614976415_2060928241351156_6356873089101544320_n.jpg" alt="Resultado Anti-edad / Reafirmante">
+                <img src="static/img/614976415_2060928241351156_6356873089101544320_n.jpg" alt="Resultado Anti-edad / Reafirmante">
+                <div class="gallery-overlay">
+
+                </div>
             </div>
         </div>
     </section>
@@ -281,11 +171,11 @@
     <!-- Sobre Nosotros -->
     <section id="nosotros" class="about">
         <div class="about-img">
-            <img src="img/mabel.jpg" alt="Cosmetóloga trabajando">
+            <img src="static/img/mabel.jpg" alt="Cosmetóloga trabajando">
         </div>
         <div class="about-text">
             <h2>Mi nombre es Noguera. Soy experta y apasionada por la salud de tu piel</h2>
-            <p>Combino la cosmetología clínica con protocolos profesionales y personalizados. Cada piel requiere un cuidado único.</p>
+            <p> combino la cosmetología clínica con protocolos profesionales y personalizados. cada piel requiere un cuidado único.</p>
             <p>Utilizo productos dermatológicamente testados y técnicas especializadas para garantizarte resultados visibles, seguros y duraderos en un ambiente de absoluta relajación y confianza.</p>
         </div>
     </section>
@@ -308,16 +198,16 @@
                 <label for="servicio">Tratamiento de Interés</label>
                 <select id="servicio" required>
                     <option value="" disabled selected>Selecciona un tratamiento</option>
-                    <option value="Limpieza facial profunda">Limpieza facial profunda</option>
-                    <option value="Tratamiento control grasa">Tratamiento control grasa</option>
-                    <option value="Tratamiento piel grasa ocluida">Tratamiento piel grasa ocluida</option>
-                    <option value="Tratamiento control acné">Tratamiento control acné</option>
-                    <option value="Tratamiento de hidratación">Tratamiento de hidratación</option>
-                    <option value="Tratamiento anti arrugas">Tratamiento anti arrugas reafirmante (efecto lifting)</option>
-                    <option value="Tratamiento revitalizante">Tratamiento revitalizante</option>
-                    <option value="Tratamiento despigmentante">Tratamiento despigmentante</option>
-                    <option value="Tratamiento desensibilizante">Tratamiento desensibilizante</option>
-                    <option value="Tratamiento reafirmante escote y cuello">Tratamiento reafirmante escote y cuello</option>
+                    <option value="limpieza">Limpieza facial profunda</option>
+                    <option value="control-grasa">Tratamiento control grasa</option>
+                    <option value="grasa-ocluida">Tratamiento piel grasa ocluida</option>
+                    <option value="acne">Tratamiento control acné</option>
+                    <option value="hidratacion">Tratamiento de hidratación</option>
+                    <option value="anti-arrugas">Tratamiento anti arrugas reafirmante (efecto lifting)</option>
+                    <option value="revitalizante">Tratamiento revitalizante</option>
+                    <option value="despigmentante">Tratamiento despigmentante</option>
+                    <option value="desensibilizante">Tratamiento desensibilizante</option>
+                    <option value="reafirmante-escote">Tratamiento reafirmante escote y cuello</option>
                 </select>
             </div>
             <div class="form-group">
@@ -328,66 +218,50 @@
         </form>
     </section>
 
+    <!-- SDKs de Firebase -->
+   <script type="module">
+    // Aquí pegaremos la lógica de conexión en el siguiente paso
+   </script>
+
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 Centro de Cosmetología y Estética Avanzada. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Lógica de Firebase y Envío Combinado (Firestore + WhatsApp) -->
-    <script type="module">
-        // Importa Firebase SDKs desde CDN oficial para que funcione directo en GitHub Pages sin empaquetadores complejos
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // CONFIGURACIÓN DE FIREBASE (Asegúrate de poner tus credenciales reales aquí)
-        const firebaseConfig = {
-            apiKey: "TU_API_KEY",
-            authDomain: "TU_PROYECTO.firebaseapp.com",
-            projectId: "TU_PROYECTO_ID",
-            storageBucket: "TU_PROYECTO.appspot.com",
-            messagingSenderId: "TU_MESSAGING_SENDER_ID",
-            appId: "TU_APP_ID"
-        };
-
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Hacer la función accesible globalmente desde el formulario
-        window.enviarFormulario = async function(event) {
+    <!-- Script Interactivo -->
+    <script>
+        function enviarFormulario(event) {
             event.preventDefault();
-
             const nombre = document.getElementById('nombre').value;
-            const telefono = document.getElementById('telefono').value;
-            const servicio = document.getElementById('servicio').value;
-            const mensaje = document.getElementById('mensaje').value;
-
-            try {
-                // 1. Guardar la cita en la base de datos Firestore (para que lo vea el panel de admin)
-                await addDoc(collection(db, "citas"), {
-                    nombre: nombre,
-                    telefono: telefono,
-                    servicio: servicio,
-                    mensaje: mensaje,
-                    fecha: new Date().toISOString()
-                });
-
-                alert(`¡Gracias, ${nombre}! Hemos registrado tu solicitud con éxito.`);
-
-                // 2. Redirigir opcionalmente a WhatsApp para avisarle directo a la clienta
-                const telefonoClienta = "523300000000"; // Reemplaza con el número real de la clienta
-                const textoMensaje = `¡Hola! Me llegó una solicitud de cita desde la web, ¿podrías confirmarla?%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
-                
-                window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
-
-                // 3. Limpiar formulario
-                document.querySelector('.contact-form').reset();
-
-            } catch (error) {
-                console.error("Error al guardar la cita: ", error);
-                alert("Hubo un error al registrar la cita. Por favor intenta de nuevo.");
-            }
+            alert(`¡Gracias, ${nombre}! Hemos recibido tu solicitud de cita. Nos pondremos en contacto contigo muy pronto para confirmarla.`);
+            document.querySelector('.contact-form').reset();
         }
     </script>
+
+    <script>
+    // Dentro de tu script de envío en index.html:
+
+// 1. Número de WhatsApp de tu clienta (incluye el código de país, por ejemplo 52 para México y su número de 10 dígitos)
+const telefonoClienta = "3334; // Reemplaza con el número de WhatsApp de tu clienta, sin espacios ni guiones, y con el código de país si es necesario.
+
+
+const nombre = document.getElementById('nombre').value;
+const telefono = document.getElementById('telefono').value;
+const servicio = document.getElementById('servicio').value;
+const mensaje = document.getElementById('mensaje').value;
+
+
+const textoMensaje = `¡Hola! me llego tu solicitud de cita, podrias confirmarla?%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
+
+
+window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
+
+
+    </script>
+
+
+
+
+
 </body>
 </html>
