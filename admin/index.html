@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - NogueraBeauti</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8c6d53;
+            --primary-dark: #6e523c;
+            --accent: #d4b595;
+            --bg-gradient: linear-gradient(135deg, #fbf7f0 0%, #f4ede1 50%, #eae0d0 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-main: #3a322c;
+            --text-muted: #8c8278;
+            --border-color: #f0e6dc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(140, 109, 83, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-sizing: border-box;
+        }
+
+        /* Encabezado del Panel */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-header h2 {
+            margin: 0;
+            color: var(--primary-dark);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .admin-header p {
+            margin: 5px 0 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Pantalla de Login */
+        #login-screen {
+            text-align: center;
+            padding: 30px 20px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .login-badge {
+            background-color: #f2e9de;
+            color: var(--primary-dark);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        #login-screen h2 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+
+        #login-screen p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        #login-screen input {
+            padding: 12px 18px;
+            font-size: 15px;
+            border: 1px solid #dcd0c0;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 280px;
+            outline: none;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+
+        #login-screen input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(140, 109, 83, 0.12);
+            background-color: #fff;
+        }
+
+        #login-screen button, .btn-salir {
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(140, 109, 83, 0.2);
+            white-space: nowrap;
+        }
+
+        #login-screen button:hover, .btn-salir:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        #login-screen button:active, .btn-salir:active {
+            transform: translateY(1px);
+        }
+
+        .btn-salir {
+            background-color: #d9534f;
+            font-size: 13px;
+            padding: 8px 16px;
+            box-shadow: none;
+        }
+
+        .btn-salir:hover {
+            background-color: #c9302c;
+        }
+
+        .btn-eliminar {
+            background-color: #fcf1f1;
+            color: #d9534f;
+            border: 1px solid #fad2d2;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        /* Panel de Citas */
+        #admin-panel {
+            display: none;
+        }
+
+        /* Contenedor responsivo para la tabla */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            -webkit-overflow-scrolling: touch; /* Suaviza el scroll en iOS */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 700px; /* Asegura que la tabla no se aplaste en celulares */
+        }
+
+        th {
+            background-color: #f7f1e8;
+            color: var(--primary-dark);
+            padding: 16px;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #faf6f0;
+        }
+
+        .whatsapp-link {
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eafaf1;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .whatsapp-link:hover {
+            background: #d4efdf;
+            text-decoration: none;
+        }
+
+        .error-msg {
+            color: #d9534f;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* =========================================
+           MEDIA QUERIES (RESPONSIVIDAD)
+           ========================================= */
+
+        /* Tablets y pantallas medianas */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 25px;
+            }
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .btn-salir {
+                align-self: flex-start;
+            }
+            th, td {
+                padding: 12px 10px;
+                font-size: 13px;
+            }
+        }
+
+        /* Teléfonos móviles */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+            #login-screen {
+                padding: 10px 5px;
+            }
+            #login-screen h2 {
+                font-size: 22px;
+            }
+            
+            /* Apilar el input y el botón de login */
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #login-screen input {
+                max-width: 100%;
+            }
+            #login-screen button {
+                width: 100%;
+                padding: 14px;
+            }
+
+            .admin-header h2 {
+                font-size: 20px;
+            }
+            .btn-salir {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+            }
+            
+            /* Ajustes menores para los botones dentro de la tabla */
+            .whatsapp-link {
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+            .btn-eliminar {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- PANTALLA DE ACCESO -->
+        <div id="login-screen">
+            <span class="login-badge">Portal Exclusivo</span>
+            <h2>Hola, Cosmetóloga Mabel</h2>
+            <p>Ingresa tu contraseña de administración para consultar las citas agendadas en tiempo real. (contraseña=noguera)</p>
+            <div class="input-group">
+                <input type="password" id="admin-password" placeholder="Contraseña de acceso" onkeypress="handleKeyPress(event)">
+                <button onclick="verificarPassword()">Entrar</button>
+            </div>
+            <div id="error-msg" class="error-msg">Contraseña incorrecta. Inténtalo de nuevo.</div>
+        </div>
+
+        <!-- PANEL DE CITAS -->
+        <div id="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2>Panel de Control y Citas</h2>
+                    <p>Sincronización en tiempo real de las solicitudes de pacientes</p>
+                </div>
+                <button class="btn-salir" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+            
+            <!-- Contenedor con scroll horizontal para móviles -->
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Paciente</th>
+                            <th>Teléfono / WhatsApp</th>
+                            <th>Tratamiento Solicitado</th>
+                            <th>Comentarios / Notas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla">
+                        <!-- Los datos se cargan dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE CONEXIÓN Y LÓGICA -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Tus credenciales de Firebase
+        const firebaseConfig = {
+            apiKey: "Tus_datos_de_la_pantalla",
+            authDomain: "noguerabeauti.firebaseapp.com",
+            projectId: "noguerabeauti",
+            storageBucket: "noguerabeautistorage.app",
+            messagingSenderId: "310766282869",
+            appId: "1:310766282869:web:8ed911aea7e3792026f03c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const PASSWORD_CORRECTA = "noguera";
+
+        window.verificarPassword = function() {
+            const passIngresada = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('error-msg');
+
+            if (passIngresada === PASSWORD_CORRECTA) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                errorDiv.style.display = 'none';
+                cargarCitasAdmin();
+            } else {
+                errorDiv.style.display = 'block';
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        };
+
+        window.handleKeyPress = function(event) {
+            if (event.key === 'Enter') {
+                verificarPassword();
+            }
+        };
+
+        window.cerrarSesion = function() {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('admin-password').value = '';
+        };
+
+        window.eliminarCita = async function(idCita) {
+            const confirmacion = confirm("¿Estás segura de marcar esta cita como atendida? Esto la eliminará de la lista.");
+            
+            if (confirmacion) {
+                try {
+                    await deleteDoc(doc(db, "citas", idCita));
+                } catch (error) {
+                    console.error("Error al eliminar la cita:", error);
+                    alert("Hubo un error al intentar actualizar la cita.");
+                }
+            }
+        };
+
+        function cargarCitasAdmin() {
+            const cuerpoTabla = document.getElementById('cuerpoTabla');
+            const q = query(collection(db, "citas"), orderBy("fechaCreacion", "desc"));
+
+            onSnapshot(q, (snapshot) => {
+                cuerpoTabla.innerHTML = ""; 
+                
+                if (snapshot.empty) {
+                    cuerpoTabla.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px; color: #8c8278;">No hay citas registradas todavía.</td></tr>`;
+                    return;
+                }
+
+                snapshot.forEach((documento) => {
+                    const cita = documento.data();
+                    const idCita = documento.id; 
+                    const telefonoLimpio = cita.telefono ? cita.telefono.replace(/\D/g,'') : '';
+                    
+                    const fila = `
+                        <tr>
+                            <td><strong>${cita.nombre}</strong></td>
+                            <td><a href="https://wa.me/52${telefonoLimpio}" target="_blank" class="whatsapp-link">💬 ${cita.telefono}</a></td>
+                            <td>${cita.servicio}</td>
+                            <td>${cita.mensaje || '<span style="color: #b2bec3;">Sin comentarios</span>'}</td>
+                            <td>
+                                <button onclick="eliminarCita('${idCita}')" class="btn-eliminar">✔ Marcar Atendida</button>
+                            </td>
+                        </tr>
+                    `;
+                    cuerpoTabla.innerHTML += fila;
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -2,7 +2,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// --- TUS CREDENCIALES DE FIREBASE ---
 const firebaseConfig = {
     apiKey: "Tus_datos_de_la_pantalla",
     authDomain: "noguerabeauti.firebaseapp.com",
@@ -12,13 +11,13 @@ const firebaseConfig = {
     appId: "1:310766282869:web:8ed911aea7e3792026f03c"
 };
 
-// Inicializar Firebase
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- 1. FUNCIÓN PARA ENVIAR EL FORMULARIO ---
+
 window.enviarFormulario = async function(event) {
-    event.preventDefault(); // Evita que la página se recargue
+    event.preventDefault(); 
 
     const nombre = document.getElementById('nombre').value;
     const telefono = document.getElementById('telefono').value;
@@ -33,7 +32,7 @@ window.enviarFormulario = async function(event) {
             botonSubmit.textContent = "Enviando solicitud...";
         }
 
-        // Guarda los datos en una colección llamada "citas"
+
         await addDoc(collection(db, "citas"), {
             nombre: nombre,
             telefono: telefono,
@@ -57,7 +56,7 @@ window.enviarFormulario = async function(event) {
     }
 };
 
-// --- 2. CARGAR CITAS EN TIEMPO REAL PARA EL PANEL ---
+
 const cuerpoTabla = document.getElementById('cuerpoTabla');
 
 if (cuerpoTabla) {
