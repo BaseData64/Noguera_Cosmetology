@@ -180,11 +180,12 @@
     </section>
 
     <!-- Contacto / Citas -->
-    <section id="contacto" class="contact">
+<section id="contacto" class="contact">
         <h2 class="section-title">Agenda tu Cita :)</h2>
         <p class="section-subtitle">Da el primer paso hacia una piel radiante</p>
         
-        <form class="contact-form" onsubmit="enviarFormulario(event)">
+        <!-- SE AGREGÓ id="bookingForm" Y SE QUITÓ EL onsubmit -->
+        <form id="bookingForm" class="contact-form">
             <div class="form-group">
                 <label for="nombre">Nombre Completo</label>
                 <input type="text" id="nombre" required placeholder="Tu nombre">
@@ -194,6 +195,7 @@
                 <input type="tel" id="telefono" required placeholder="+52 33 0000 0000">
             </div>
             <div class="form-group">
+                <!-- EL ID DE ESTE SELECT ES "servicio" -->
                 <label for="servicio">Tratamiento de Interés</label>
                 <select id="servicio" required>
                     <option value="" disabled selected>Selecciona un tratamiento</option>
@@ -211,6 +213,7 @@
             </div>
             <div class="form-group">
                 <label for="mensaje">Comentarios o Preferencia de Horario</label>
+                <!-- SE AGREGÓ id="mensaje" PARA QUE JAVASCRIPT LO ENCUENTRE -->
                 <textarea id="mensaje" rows="3" placeholder="Cuéntanos brevemente sobre tu piel o disponibilidad..."></textarea>
             </div>
             <button type="submit" class="btn-submit">Solicitar Cita</button>
@@ -223,42 +226,12 @@
    </script>
 
     <!-- Footer -->
+<!-- Footer -->
     <footer>
         <p>&copy; 2026 Centro de Cosmetología y Estética Avanzada. Todos los derechos reservados.</p>
     </footer>
-
-    <!-- Script Interactivo -->
-    <script>
-        function enviarFormulario(event) {
-            event.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            alert(`¡Gracias, ${nombre}! Hemos recibido tu solicitud de cita. Nos pondremos en contacto contigo muy pronto para confirmarla.`);
-            document.querySelector('.contact-form').reset();
-        }
-    </script>
-
-    <script>
-    // Dentro de tu script de envío en index.html:
-
-// 1. Número de WhatsApp de tu clienta (incluye el código de país, por ejemplo 52 para México y su número de 10 dígitos)
-const telefonoClienta = "523334000000"; // Reemplaza con el número de WhatsApp de tu clienta
-
-const nombre = document.getElementById('nombre').value;
-const telefono = document.getElementById('telefono').value;
-const servicio = document.getElementById('servicio').value;
-const mensaje = document.getElementById('mensaje').value;
-
-
-const textoMensaje = `¡Hola! me llego tu solicitud de cita, podrias confirmarla?%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
-
-
-window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
-
-
-    </script>
-
-
-
+</body>
+</html>
 
 
 </body>
