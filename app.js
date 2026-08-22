@@ -14,30 +14,42 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Ahora sí encontrará el formulario gracias al nuevo ID
     const form = document.getElementById('bookingForm');
     
     if (form) {
         form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Evita que la página se recargue
             
+            // Capturamos los datos con los IDs correctos que están en tu HTML
             const nombre = document.getElementById('nombre').value;
             const telefono = document.getElementById('telefono').value;
-            const tratamiento = document.getElementById('tratamiento').value;
+            const servicio = document.getElementById('servicio').value;
+            const mensaje = document.getElementById('mensaje').value;
             
             try {
+                // 1. Guarda los datos en la base de datos de Firebase
                 await addDoc(collection(db, "citas"), {
                     nombre: nombre,
                     telefono: telefono,
-                    tratamiento: tratamiento,
+                    tratamiento: servicio,
+                    comentarios: mensaje,
                     fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
                     timestamp: serverTimestamp()
                 });
 
-                alert("¡Cita enviada con éxito! Noguera se pondrá en contacto contigo pronto.");
+                // 2. Prepara y abre el mensaje de WhatsApp automáticamente
+                const telefonoClienta = "523334000000"; // Pon aquí tu número
+                const textoMensaje = `¡Hola! me llego tu solicitud de cita, podrias confirmarla?%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
+                
+                window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
+
+                // 3. Limpia el formulario
                 form.reset();
+
             } catch (error) {
                 console.error("Error al guardar la cita: ", error);
-                alert("Hubo un error al enviar la cita. Por favor, intenta de nuevo.");
+                alert("Hubo un error al procesar la cita. Revisa tu conexión.");
             }
         });
     }
