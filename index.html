@@ -218,104 +218,63 @@
         </form>
     </section>
 
-    <!-- SDKs de Firebase -->
-   <script type="module">
-    // Aquí pegaremos la lógica de conexión en el siguiente paso
-   </script>
+  <!-- SDKs de Firebase (Versión Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Centro de Cosmetología y Estética Avanzada. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Script Interactivo -->
+    <!-- Script Único y Corregido para Agendar -->
     <script>
+        // 1. Configuración de Firebase (Reemplaza con tus llaves reales)
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO_ID",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_MESSAGING_SENDER_ID",
+            appId: "TU_APP_ID"
+        };
+
+        // 2. Inicializar Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // 3. Función unificada que se ejecuta SOLO al presionar "Solicitar Cita"
         function enviarFormulario(event) {
-            event.preventDefault();
+            event.preventDefault(); // Evita que la página se recargue
+
+            // Recolectar datos
             const nombre = document.getElementById('nombre').value;
-            alert(`¡Gracias, ${nombre}! Hemos recibido tu solicitud de cita. Nos pondremos en contacto contigo muy pronto para confirmarla.`);
-            document.querySelector('.contact-form').reset();
+            const telefono = document.getElementById('telefono').value;
+            const servicio = document.getElementById('servicio').value;
+            const mensaje = document.getElementById('mensaje').value;
+
+            // Guardar en la colección "citas" de Firestore
+            db.collection("citas").add({
+                nombre: nombre,
+                telefono: telefono,
+                servicio: servicio,
+                mensaje: mensaje,
+                fecha: new Date().toISOString()
+            })
+            .then(() => {
+                alert(`¡Gracias, ${nombre}! Hemos recibido tu solicitud de cita.`);
+
+                // Redirigir a WhatsApp (Agrega el número de tu clienta aquí)
+                const telefonoClienta = "523300000000"; 
+                const textoMensaje = `¡Hola! Me llegó una solicitud de cita desde la web:%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
+                
+                window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
+
+                // Limpiar el formulario
+                document.querySelector('.contact-form').reset();
+            })
+            .catch((error) => {
+                console.error("Error al registrar la cita: ", error);
+                alert("Hubo un error al guardar la cita. Verifica tu conexión a internet.");
+            });
         }
     </script>
-
-    <script>
-    // Dentro de tu script de envío en index.html:
-
-// 1. Número de WhatsApp de tu clienta (incluye el código de país, por ejemplo 52 para México y su número de 10 dígitos)
-const telefonoClienta = "3334; // Reemplaza con el número de WhatsApp de tu clienta, sin espacios ni guiones, y con el código de país si es necesario.
-
-
-const nombre = document.getElementById('nombre').value;
-const telefono = document.getElementById('telefono').value;
-const servicio = document.getElementById('servicio').value;
-const mensaje = document.getElementById('mensaje').value;
-
-
-const textoMensaje = `¡Hola! me llego tu solicitud de cita, podrias confirmarla?%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
-
-
-window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
-
-
-    </script>
-
-<!-- Reemplaza el bloque de <script type="module"> que tenías al final por este -->
-
-<!-- 1. Cargar los SDKs clásicos de Firebase (compatibles con todos los celulares) -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-<script>
-    // Tu configuración de Firebase
-    const firebaseConfig = {
-        apiKey: "TU_API_KEY",
-        authDomain: "TU_PROYECTO.firebaseapp.com",
-        projectId: "TU_PROYECTO_ID",
-        storageBucket: "TU_PROYECTO.appspot.com",
-        messagingSenderId: "TU_MESSAGING_SENDER_ID",
-        appId: "TU_APP_ID"
-    };
-
-    // Inicializar Firebase de forma clásica
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Función de envío adaptada para celular y PC
-    function enviarFormulario(event) {
-        event.preventDefault();
-
-        const nombre = document.getElementById('nombre').value;
-        const telefono = document.getElementById('telefono').value;
-        const servicio = document.getElementById('servicio').value;
-        const mensaje = document.getElementById('mensaje').value;
-
-        // Guardar en Firestore
-        db.collection("citas").add({
-            nombre: nombre,
-            telefono: telefono,
-            servicio: servicio,
-            mensaje: mensaje,
-            fecha: new Date().toISOString()
-        })
-        .then(() => {
-            alert(`¡Listo, ${nombre}! Tu cita ha sido registrada.`);
-
-            // Opcional: Redirigir a WhatsApp de la clienta
-            const telefonoClienta = "523300000000"; // Cambia por su número real
-            const textoMensaje = `¡Hola! Me llegó una solicitud de cita desde la web:%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Tratamiento:* ${servicio}%0A*Comentarios:* ${mensaje}`;
-            
-            window.open(`https://wa.me/${telefonoClienta}?text=${textoMensaje}`, '_blank');
-
-            document.querySelector('.contact-form').reset();
-        })
-        .catch((error) => {
-            console.error("Error al registrar la cita: ", error);
-            alert("Hubo un error al enviar desde el celular. Intenta de nuevo.");
-        });
-    }
-</script>
-
-
-
 </body>
 </html>
