@@ -240,7 +240,13 @@
         const db = firebase.firestore();
 
         // 3. Función unificada que se ejecuta SOLO al presionar "Solicitar Cita"
+    
         function enviarFormulario(event) {
+            event.preventDefault();
+            console.log("¡Clic recibido! El botón funciona.");
+            alert("¡Hola! Si ves este mensaje, el botón está funcionando.");
+        }
+  
             event.preventDefault(); // Evita que la página se recargue
 
             // Recolectar datos
