@@ -13,12 +13,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Buscamos el formulario directamente
-const form = document.getElementById('bookingForm');
+console.log("¡El script de Firebase está conectado correctamente!");
 
-if (form) {
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault(); // Detiene la recarga de la página
+// Esperamos a que todo cargue para evitar fallos
+window.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('bookingForm');
+    
+    if (!form) {
+        console.error("¡ERROR! No se encontró el formulario con id 'bookingForm'");
+        return;
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log("Formulario interceptado, intentando guardar...");
 
         const btnSubmit = form.querySelector('.btn-submit');
         const textoOriginal = btnSubmit.textContent;
@@ -38,13 +46,11 @@ if (form) {
             alert("¡Tu agenda fue recibida exitosamente! Nos pondremos en contacto contigo.");
             form.reset();
         } catch (error) {
-            console.error("Error al guardar en Firebase: ", error);
-            alert("Hubo un error de conexión. Revisa la consola.");
+            console.error("Error crítico al guardar:", error);
+            alert("Hubo un error al guardar. Revisa la consola (F12).");
         } finally {
             btnSubmit.textContent = textoOriginal;
             btnSubmit.disabled = false;
         }
     });
-} else {
-    console.error("No se encontró el ID 'bookingForm' en el HTML.");
-}
+});
